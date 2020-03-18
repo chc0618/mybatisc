@@ -92,7 +92,7 @@ public class XMLConfigBuilder extends BaseBuilder {
   }
 
   public Configuration parse() {
-    if (parsed) {
+    if (parsed) {    // 防止方法被二次调用
       throw new BuilderException("Each XMLConfigBuilder can only be used once.");
     }
     parsed = true;
@@ -100,6 +100,7 @@ public class XMLConfigBuilder extends BaseBuilder {
     return configuration;
   }
 
+  // 读取配置文件
   private void parseConfiguration(XNode root) {
     try {
       //issue #117 read properties first
@@ -358,7 +359,7 @@ public class XMLConfigBuilder extends BaseBuilder {
     }
   }
 
-  private void mapperElement(XNode parent) throws Exception {
+  private void mapperElement(XNode parent) throws Exception {  // 处理mappers
     if (parent != null) {
       for (XNode child : parent.getChildren()) {
         if ("package".equals(child.getName())) {
@@ -368,17 +369,17 @@ public class XMLConfigBuilder extends BaseBuilder {
           String resource = child.getStringAttribute("resource");
           String url = child.getStringAttribute("url");
           String mapperClass = child.getStringAttribute("class");
-          if (resource != null && url == null && mapperClass == null) {
+          if (resource != null && url == null && mapperClass == null) { // 执行 resource
             ErrorContext.instance().resource(resource);
             InputStream inputStream = Resources.getResourceAsStream(resource);
             XMLMapperBuilder mapperParser = new XMLMapperBuilder(inputStream, configuration, resource, configuration.getSqlFragments());
             mapperParser.parse();
-          } else if (resource == null && url != null && mapperClass == null) {
+          } else if (resource == null && url != null && mapperClass == null) {  // 执行 url
             ErrorContext.instance().resource(url);
             InputStream inputStream = Resources.getUrlAsStream(url);
             XMLMapperBuilder mapperParser = new XMLMapperBuilder(inputStream, configuration, url, configuration.getSqlFragments());
             mapperParser.parse();
-          } else if (resource == null && url == null && mapperClass != null) {
+          } else if (resource == null && url == null && mapperClass != null) {  // 执行mapper
             Class<?> mapperInterface = Resources.classForName(mapperClass);
             configuration.addMapper(mapperInterface);
           } else {

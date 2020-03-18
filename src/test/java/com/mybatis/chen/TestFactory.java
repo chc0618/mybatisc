@@ -1,5 +1,6 @@
 package com.mybatis.chen;
 
+import com.alibaba.fastjson.JSON;
 import com.mybatis.chen.dao.PersonDao;
 import com.mybatis.chen.model.Person;
 import com.mybatis.chen.util.SqlSessionFactoryUtil;
@@ -21,6 +22,11 @@ public class TestFactory {
     p.setPhone("15345634565");
     personDao.insert(p);
     System.out.println(p.toString());
+    Person select = personDao.select(2L);
+    System.out.println(JSON.toJSONString(select) + "+++++");
+    Object o = sqlSession.selectOne("com.mybatis.chen.dao.PersonDao.select", 2L);
+    System.out.println(JSON.toJSONString(o));
+
     sqlSession.commit();
     sqlSession.close();
   }

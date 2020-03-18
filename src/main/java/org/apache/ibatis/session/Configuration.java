@@ -599,7 +599,7 @@ public class Configuration {
   }
 
   public Executor newExecutor(Transaction transaction, ExecutorType executorType) {
-    executorType = executorType == null ? defaultExecutorType : executorType;
+    executorType = executorType == null ? defaultExecutorType : executorType;  // 默认 执行器类型 SIMPLE ExecutorType.SIMPLE
     executorType = executorType == null ? ExecutorType.SIMPLE : executorType;
     Executor executor;
     if (ExecutorType.BATCH == executorType) {
@@ -609,7 +609,7 @@ public class Configuration {
     } else {
       executor = new SimpleExecutor(this, transaction);
     }
-    if (cacheEnabled) {
+    if (cacheEnabled) {  // mybatis 一级缓存 默认开启
       executor = new CachingExecutor(executor);
     }
     executor = (Executor) interceptorChain.pluginAll(executor);
