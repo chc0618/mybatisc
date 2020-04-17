@@ -17,9 +17,9 @@ public class TestFactory {
     Person p = new Person();
     p.setAddress("广东省");
     p.setAge(12);
-    p.setEmail("157538651@qq.com");
+    p.setEmail("157538999659991@qq.com");
     p.setName("chen");
-    p.setPhone("15345634565");
+    p.setPhone("1534563456588888");
     personDao.insert(p);
     System.out.println(p.toString());
     Person select = personDao.select(2L);
